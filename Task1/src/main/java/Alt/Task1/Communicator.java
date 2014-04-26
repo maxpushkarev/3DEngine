@@ -24,7 +24,6 @@ public class Communicator {
 			while(true)
 			{
 				Socket socket = EngineServerSocket.accept(); 
-				System.out.println("New EngineClient connected!!!");
 				new CommunicationThread(socket).start();
 			}
 		    

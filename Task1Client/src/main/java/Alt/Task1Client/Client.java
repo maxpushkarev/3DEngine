@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -14,11 +15,12 @@ public class Client {
 	String IpAddress = "127.0.0.1";
 	int Port;
 	Socket ClientSocket;
-	
+	String ClientId;
 	
 	public Client(int port)
 	{
 		this.Port = port;
+		this.ClientId = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
 	}
 	
 	
@@ -40,6 +42,9 @@ public class Client {
             BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
             String line = null;
             
+            out.writeUTF("ClientId:"+this.ClientId); //TODO: refactor this shit! Use proto-messages maybe
+            
+            System.out.println("Hello! I'm simple 3D-Engine client. My id: "+this.ClientId);
             while (true) {
             	System.out.println("Enter input data:");
                 line = keyboard.readLine();
