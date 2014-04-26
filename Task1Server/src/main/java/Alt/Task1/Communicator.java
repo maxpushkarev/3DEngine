@@ -6,8 +6,8 @@ import java.net.Socket;
 public class Communicator {
 
 	int Port;
-	Brain MainBrain;
 	ServerSocket EngineServerSocket;
+	Brain MainBrain;
 	
 	public Communicator(int port, Brain brain)
 	{

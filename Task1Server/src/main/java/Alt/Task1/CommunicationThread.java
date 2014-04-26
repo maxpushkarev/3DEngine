@@ -6,17 +6,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import Geometry.Ray;
+
 public class CommunicationThread extends Thread {
 	
-	 private Socket Socket;
-	 private String ClientId;
-	 private Brain MainBrain;
+	 Socket Socket;
+	 String ClientId;
+	 Ray ClientRay;
+	 Brain MainBrain;
 
 	    public CommunicationThread(Socket clientSocket, Brain brain) {
 	        this.Socket = clientSocket;
 	        this.MainBrain = brain;
 	    }
 
+	    @Override
 	    public void run() {
 		  
 	    	try
@@ -58,7 +62,14 @@ public class CommunicationThread extends Thread {
 	    				continue;
 	    			}
 	    			
-	    			out.writeUTF("GOOD!");
+	    			this.ClientRay = new Ray(line);
+	    			AnalyzeThread analyzeThread = new AnalyzeThread(this.ClientRay, this.MainBrain);
+	    			
+	    			analyzeThread.start();
+	    			analyzeThread.join();
+	    			
+	    			
+	    			out.writeUTF(analyzeThread.Output);
 	    			out.flush();
 	    			
 	    		}
