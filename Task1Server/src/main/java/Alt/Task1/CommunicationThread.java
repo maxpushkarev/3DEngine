@@ -10,9 +10,11 @@ public class CommunicationThread extends Thread {
 	
 	 private Socket Socket;
 	 private String ClientId;
+	 private Brain MainBrain;
 
-	    public CommunicationThread(Socket clientSocket) {
+	    public CommunicationThread(Socket clientSocket, Brain brain) {
 	        this.Socket = clientSocket;
+	        this.MainBrain = brain;
 	    }
 
 	    public void run() {

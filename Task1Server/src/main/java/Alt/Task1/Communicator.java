@@ -6,11 +6,13 @@ import java.net.Socket;
 public class Communicator {
 
 	int Port;
+	Brain MainBrain;
 	ServerSocket EngineServerSocket;
 	
-	public Communicator(int port)
+	public Communicator(int port, Brain brain)
 	{
 		this.Port = port;
+		this.MainBrain = brain;
 	}
 	
 	
@@ -24,7 +26,7 @@ public class Communicator {
 			while(true)
 			{
 				Socket socket = EngineServerSocket.accept(); 
-				new CommunicationThread(socket).start();
+				new CommunicationThread(socket, this.MainBrain).start();
 			}
 		    
 		        
