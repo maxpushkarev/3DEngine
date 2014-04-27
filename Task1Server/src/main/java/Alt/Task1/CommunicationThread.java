@@ -49,28 +49,31 @@ public class CommunicationThread extends Thread {
 	    			}
 	    			catch(Exception ex)
 	    			{
-	    				System.out.println("Disconnect client "+this.ClientId);
+	    				System.out.println("DISCONNECT CLIENT# "+this.ClientId);
 	    				break;
 	    			}
-	    			System.out.println("Input data from client "+this.ClientId+": " + line);
+	    			System.out.println("INPUT DATA FROM CLIENT# "+this.ClientId+": " + line);
 	    			
 	    			
 	    			if(!ProtocolValidator.CheckMessage(line))
 	    			{
-	    				out.writeUTF("Invalid message: "+ line);
-	    				out.flush();
-	    				continue;
+	    				synchronized(out)
+	    				{
+	    					out.writeUTF("INVALID MESSAGE: "+ line);
+	    					out.flush();
+	    					continue;
+	    				}
 	    			}
 	    			
 	    			this.ClientRay = new Ray(line);
-	    			AnalyzeThread analyzeThread = new AnalyzeThread(this.ClientRay, this.MainBrain);
-	    			
+	    			AnalyzeThread analyzeThread = new AnalyzeThread(this.ClientRay, this.MainBrain, out);
 	    			analyzeThread.start();
-	    			analyzeThread.join();
 	    			
-	    			
-	    			out.writeUTF(analyzeThread.Output);
-	    			out.flush();
+	    			synchronized(out)
+    				{
+	    				out.writeUTF("WAIT FOR ANALYZING RAY: "+ this.ClientRay.getId());
+	    				out.flush();
+    				}
 	    			
 	    		}
 	    		

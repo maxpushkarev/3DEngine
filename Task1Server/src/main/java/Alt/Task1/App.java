@@ -11,10 +11,12 @@ public class App
         /* Create brain with initialize */
         Brain brain = new Brain();
         brain.Initialize();
+        
+        System.out.println("Engine-Server is ready!");
         /* create communicator between server and client */
         Communicator communicator = new Communicator(port, brain);
         communicator.Initialize();
         
-        System.out.println("Engine-Server is ready!");
+      
     }
 }
