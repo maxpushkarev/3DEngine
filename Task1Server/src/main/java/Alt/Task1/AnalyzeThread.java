@@ -28,8 +28,18 @@ public class AnalyzeThread extends Thread {
 				
 				synchronized(this.OutputStream)
 				{
-					this.OutputStream.writeUTF(this.Output);
-					this.OutputStream.flush();
+					try
+					{
+						this.OutputStream.writeUTF(this.Output);
+					}
+					catch(Exception ex)
+	    			{
+	    				System.out.println("CONNECTION LOST IN ANALYZING THREAD");
+	    			}
+					finally
+					{
+						this.OutputStream.flush();
+					}
 				}
 				
 			} catch (Exception e) {

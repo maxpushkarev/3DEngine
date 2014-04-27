@@ -20,4 +20,11 @@ public final class ScenePoint {
 		this.Y = Double.parseDouble(strBlocks[1]);
 		this.Z = Double.parseDouble(strBlocks[2]);
 	}
+	
+	public boolean EqualPoint(ScenePoint anotherPoint)
+	{
+		return (this.X == anotherPoint.X) && 
+				(this.Y == anotherPoint.Y) && 
+				(this.Z == anotherPoint.Z);
+	}
 }

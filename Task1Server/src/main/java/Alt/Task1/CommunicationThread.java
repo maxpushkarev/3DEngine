@@ -66,6 +66,20 @@ public class CommunicationThread extends Thread {
 	    			}
 	    			
 	    			this.ClientRay = new Ray(line);
+	    			
+	    			
+	    			if(this.ClientRay.getOrigin()
+	    					.EqualPoint(this.ClientRay.getDirection()))
+	    			{
+	    				synchronized(out)
+	    				{
+	    					out.writeUTF("Origin and direction must be different!");
+	    					out.flush();
+	    					continue;
+	    				}
+	    			}
+	    			
+	    			
 	    			AnalyzeThread analyzeThread = new AnalyzeThread(this.ClientRay, this.MainBrain, out);
 	    			analyzeThread.start();
 	    			

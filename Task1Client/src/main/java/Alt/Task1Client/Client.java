@@ -45,18 +45,23 @@ public class Client {
             out.writeUTF("ClientId:"+this.ClientId); //TODO: refactor this shit! Use proto-messages maybe
             
             System.out.println("Hello! I'm simple 3D-Engine client. My id: "+this.ClientId);
+           
+            ServerListener serverListener = new ServerListener(in); 
+            serverListener.start();
+            
             while (true) {
+            	
             	System.out.println("Enter input data:");
                 line = keyboard.readLine();
+                
                 System.out.println("Sending input to Engine...");
                 out.writeUTF(line); 
                 out.flush(); 
-                line = in.readUTF(); 
-                System.out.println("Result: " + line);
+                
             }
             
 		} catch (Exception e) {
-			System.err.println("Error occured: "+e.getMessage());
+			System.err.println("Error occured in client: "+e.getMessage());
 		} 
 		
 	}
