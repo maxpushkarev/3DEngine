@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>Alt</groupId>
-  <artifactId>Task1</artifactId>
+  <groupId>Alt.Task1</groupId>
+  <artifactId>ThirdParty</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Task1</name>
+  <name>ThirdParty</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -15,7 +15,7 @@
   </properties>
 
   
-    <build>
+  <build>
   <plugins>
     <plugin>
       <artifactId>maven-assembly-plugin</artifactId>
@@ -23,11 +23,11 @@
         <descriptorRefs>
           <descriptorRef>jar-with-dependencies</descriptorRef>
         </descriptorRefs>
-        <finalName>Engine</finalName>
+        <finalName>Engine_Third_Party</finalName>
         <appendAssemblyId>false</appendAssemblyId>
         <archive>
           <manifest>
-            <mainClass>Alt.Task1.App</mainClass>
+            <mainClass>Alt.Task1.ThirdParty</mainClass>
           </manifest>
         </archive>
       </configuration>
@@ -43,6 +43,7 @@
   </plugins>
 </build>
   
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -50,15 +51,5 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
-    <dependency>
-    <groupId>Alt.Task1</groupId>
-  <artifactId>ThirdParty</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <scope>compile</scope>
-  </dependency>
-    
   </dependencies>
-  
-  
 </project>

@@ -1,12 +1,14 @@
 package Alt.Task1;
 
+import Alt.Task1.ThirdParty.ConnectionPort;
+
 
 public class App 
 {
     public static void main( String[] args )
     {
-        int port=4567; //hardcode socket port
-        System.out.println("Engine-Server is started.... Please, wait!");
+        int port = ConnectionPort.LoadPort();
+        System.out.println("Engine-Server is starting.... Please, wait!");
         
         /* Create brain with initialize */
         Brain brain = new Brain();

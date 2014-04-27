@@ -51,10 +51,7 @@ public class Client {
             
             while (true) {
             	
-            	System.out.println("Enter input data:");
                 line = keyboard.readLine();
-                
-                System.out.println("Sending input to Engine...");
                 out.writeUTF(line); 
                 out.flush(); 
                 
