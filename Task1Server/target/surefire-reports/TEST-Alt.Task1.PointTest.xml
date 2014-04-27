@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.002" errors="0" skipped="0" tests="2" name="Alt.Task1.PointTest">
+<testsuite failures="0" time="0.002" errors="0" skipped="0" tests="3" name="Alt.Task1.PointTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jre7\bin"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 8"/>
-    <property name="classworlds.conf" value="C:\Users\Platon\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf1952748780378643896.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\Platon\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf4360585569687204098.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1251"/>
     <property name="java.library.path" value="C:\Program Files\Java\jre7\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre7/bin/client;C:/Program Files/Java/jre7/bin;C:/Program Files/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\ManagementStudio\;C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\;C:\Program Files\EmEditor;C:\Program Files\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Gle4\bin;C:\Users\Platon\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -61,6 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
+  <testcase time="0" classname="Alt.Task1.PointTest" name="testCreateScenePointWithId"/>
   <testcase time="0" classname="Alt.Task1.PointTest" name="testCreateScenePoint"/>
   <testcase time="0" classname="Alt.Task1.PointTest" name="testEquals"/>
 </testsuite>

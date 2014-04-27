@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.001" errors="0" skipped="0" tests="1" name="Alt.Task1.ValidatorTest">
+<testsuite failures="0" time="0" errors="0" skipped="0" tests="2" name="Alt.Task1.FaceTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jre7\bin"/>
@@ -61,5 +61,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0" classname="Alt.Task1.ValidatorTest" name="testMessage"/>
+  <testcase time="0" classname="Alt.Task1.FaceTest" name="testCreateEmptyFaceByPoints"/>
+  <testcase time="0" classname="Alt.Task1.FaceTest" name="testCreateEmptyFace"/>
 </testsuite>
