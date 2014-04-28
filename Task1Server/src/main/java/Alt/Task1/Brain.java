@@ -12,6 +12,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import Geometry.Face;
+import Geometry.GeometryHelper;
+import Geometry.Ray;
 import Geometry.Scene;
 import Geometry.SceneObject;
 import Geometry.ScenePoint;
@@ -19,6 +21,18 @@ import Geometry.ScenePoint;
 public class Brain {
 
 	public Scene MainScene;
+	
+
+	public SceneObject RayTrace(Ray ray) //entry point to raytracing
+	{	
+		if(GeometryHelper.IsIntersectionRayAndHouse(ray, this.MainScene))
+		{
+			return null;
+		}
+		
+		return null;
+	}
+	
 	
 	public Brain()
 	{
@@ -33,13 +47,56 @@ public class Brain {
         int pointsListLength = pointsList.getLength();
         
         String idPoint,xPoint,yPoint,zPoint;
+        
+        xPoint = ((Element) pointsList.item(0)).getElementsByTagName("x").item(0).getTextContent();
+    	yPoint = ((Element) pointsList.item(0)).getElementsByTagName("y").item(0).getTextContent();
+    	zPoint = ((Element) pointsList.item(0)).getElementsByTagName("z").item(0).getTextContent();
+    	
+    	this.MainScene.MaxX = this.MainScene.MinX = Double.parseDouble(xPoint);
+    	this.MainScene.MaxY = this.MainScene.MinY = Double.parseDouble(yPoint);
+    	this.MainScene.MaxZ = this.MainScene.MinZ = Double.parseDouble(zPoint);
+    	
+        
         for(int i = 0; i<pointsListLength; i++)
         {
+        	
+        	
         	idPoint = ((Element) pointsList.item(i)).getElementsByTagName("id").item(0).getTextContent();
         	xPoint = ((Element) pointsList.item(i)).getElementsByTagName("x").item(0).getTextContent();
         	yPoint = ((Element) pointsList.item(i)).getElementsByTagName("y").item(0).getTextContent();
         	zPoint = ((Element) pointsList.item(i)).getElementsByTagName("z").item(0).getTextContent();
         	
+        	
+        	if(Double.parseDouble(xPoint)<this.MainScene.MinX)
+        	{
+        		this.MainScene.MinX = Double.parseDouble(xPoint);
+        	}
+        	
+        	if(Double.parseDouble(yPoint)<this.MainScene.MinY)
+        	{
+        		this.MainScene.MinY = Double.parseDouble(yPoint);
+        	}
+        	
+        	if(Double.parseDouble(zPoint)<this.MainScene.MinZ)
+        	{
+        		this.MainScene.MinZ = Double.parseDouble(zPoint);
+        	}
+        	
+        	
+        	if(Double.parseDouble(xPoint)>this.MainScene.MaxX)
+        	{
+        		this.MainScene.MaxX = Double.parseDouble(xPoint);
+        	}
+        	
+        	if(Double.parseDouble(yPoint)>this.MainScene.MaxY)
+        	{
+        		this.MainScene.MaxY = Double.parseDouble(yPoint);
+        	}
+        	
+        	if(Double.parseDouble(zPoint)>this.MainScene.MaxZ)
+        	{
+        		this.MainScene.MaxZ = Double.parseDouble(zPoint);
+        	}
         	
         	allPoints.put(Integer.parseInt(idPoint), new ScenePoint(
         			

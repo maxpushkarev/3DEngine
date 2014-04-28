@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class SceneObject {
 
 	public String Name;
-	
 	public ArrayList<Face> Faces;
 	
 	public SceneObject()
@@ -19,4 +18,5 @@ public class SceneObject {
 		this.Faces.add(face);
 		return this.Faces;
 	}
+	
 }

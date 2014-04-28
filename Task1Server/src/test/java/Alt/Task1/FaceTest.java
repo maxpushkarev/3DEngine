@@ -16,6 +16,11 @@ public class FaceTest extends TestCase {
 		assertEquals((new Face()).Points[0],null);
 	}
 	
+	
+	
+	
+	
+	
 	public void testCreateEmptyFaceByPoints()
 	{
 		/**/

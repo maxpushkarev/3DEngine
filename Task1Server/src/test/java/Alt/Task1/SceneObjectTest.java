@@ -30,4 +30,6 @@ public class SceneObjectTest extends TestCase {
 				).get(0).Points[2].Z,3.0);
 	}
 	
+
+	
 }

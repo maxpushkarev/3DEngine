@@ -3,6 +3,7 @@ package Alt.Task1;
 import java.io.DataOutputStream;
 
 import Geometry.Ray;
+import Geometry.SceneObject;
 
 public class AnalyzeThread extends Thread {
 	
@@ -22,10 +23,10 @@ public class AnalyzeThread extends Thread {
 	
 	  @Override
 	  public void run(){
+		  SceneObject obj;
 		  	try {
-				Thread.sleep(5000);
-				this.Output = "Hello, Crazy Max!!!";
-				
+		  		obj = this.MainBrain.RayTrace(this.ClientRay);
+				this.Output = this.ClientRay.getId()+": "+ (obj == null ? "" : obj.Name) ;
 				synchronized(this.OutputStream)
 				{
 					try

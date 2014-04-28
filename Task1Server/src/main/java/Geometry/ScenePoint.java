@@ -1,7 +1,6 @@
 package Geometry;
 
 
-
 public final class ScenePoint {
 	
 	public int Id;
@@ -12,8 +11,10 @@ public final class ScenePoint {
 
 	public double Z;
 	
+	
 	public ScenePoint(int id, double x, double y, double z)
 	{
+		
 		this.X = x;
 		this.Y = y;
 		this.Z = z;
@@ -23,6 +24,8 @@ public final class ScenePoint {
 	
 	public ScenePoint(double x, double y, double z)
 	{
+		
+		
 		this.X = x;
 		this.Y = y;
 		this.Z = z;
@@ -32,6 +35,8 @@ public final class ScenePoint {
 	
 	public ScenePoint(String strCoords)
 	{
+		
+		
 		String[] strBlocks = strCoords.split(",");
 		this.X = Double.parseDouble(strBlocks[0]);
 		this.Y = Double.parseDouble(strBlocks[1]);
@@ -46,4 +51,5 @@ public final class ScenePoint {
 				(this.Y == anotherPoint.Y) && 
 				(this.Z == anotherPoint.Z);
 	}
+	
 }

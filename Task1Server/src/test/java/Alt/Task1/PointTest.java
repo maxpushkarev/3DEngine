@@ -30,4 +30,7 @@ public class PointTest extends TestCase {
 		assertEquals((new ScenePoint("10,3.678,-5")).EqualPoint(new ScenePoint("10,3.678,-5")),true);
 	}
 	
+	
+
+	
 }

@@ -23,5 +23,11 @@ public class RayTest extends TestCase {
 		assertEquals((new Ray("777;1.46,3.678,-7.5733;10,3.678,-5")).getDirection().X,10.0);
 		assertEquals((new Ray("777;1.46,3.678,-7.5733;10,3.678,-5")).getDirection().Y,3.678);
 		assertEquals((new Ray("777;1.46,3.678,-7.5733;10,3.678,-5")).getDirection().Z,-5.0);
+	
+		assertEquals((new Ray("777;1,3,-7;10,3,-5")).RayVector.Z,2.0);
+		assertEquals((new Ray("777;1,3,-7;10,3,-5")).RayVector.Y,0.0);
+		assertEquals((new Ray("777;1,3,-7;10,3,-5")).RayVector.X,9.0);
+			
+	
 	}
 }
