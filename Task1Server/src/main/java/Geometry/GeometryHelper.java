@@ -8,6 +8,18 @@ public class GeometryHelper {
 	   }
 	
 	 
+	 public static boolean IsPointWithinHouse(ScenePoint point, Scene scene)
+	 {
+		 
+		return point.X<=scene.MaxX && 
+			   point.Y<=scene.MaxY &&
+			   point.Z<=scene.MaxZ &&
+			   point.X>=scene.MinX && 
+			   point.Y>=scene.MinY &&
+			   point.Z>=scene.MinZ; 
+	 }
+	 
+	 
 	 public static boolean IsIntersectionRayAndHouse(Ray ray, Scene scene)
 	 {
 		 ScenePoint A = new ScenePoint(scene.MinX,scene.MinY, scene.MaxZ);
