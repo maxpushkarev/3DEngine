@@ -1,7 +1,7 @@
 package Geometry;
 
 
-public final class ScenePoint {
+public final class ScenePoint  {
 	
 	public int Id;
 

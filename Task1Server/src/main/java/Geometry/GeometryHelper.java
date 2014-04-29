@@ -1,5 +1,7 @@
 package Geometry;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GeometryHelper {
 
@@ -78,11 +80,41 @@ public class GeometryHelper {
 		 
 		 return false;
 	 }
+
+	 
+	 
+	 public static ScenePoint GetNearestPointToOrigin(ScenePoint point, ArrayList<ScenePoint> points)
+	 {
+		 Collections.sort(points,new PointsComparer(point));
+		 return points.get(0);
+	 }
 	 
 	 
 	 
-	 public static boolean IsIntersectionRayAndFace(Ray ray,
-	            Face face) {
+	 public static ScenePoint GetIntersectionPointBetweenObjAndRay(Ray ray, SceneObject obj)
+	 {
+		 ArrayList<ScenePoint> intersectList = new ArrayList<ScenePoint>();
+		 
+		 for( Face face : obj.Faces)
+		 {
+			 ScenePoint p = GetIntersectionPointBetweenFaceAndRay(ray,face);
+			 if(p!=null)
+			 {
+				 intersectList.add(p);
+			 }
+		 }
+		 
+		 if(intersectList.size()>0)
+		 {
+			 return GetNearestPointToOrigin(ray.getOrigin(), intersectList);
+		 }
+		 
+		 return null;
+	 }
+	 
+	 
+	 public static ScenePoint GetIntersectionPointBetweenFaceAndRay(Ray ray, Face face)
+	 {
 		 
 		 	double Xa = ray.getOrigin().X;
 		 	double Ya = ray.getOrigin().Y;
@@ -90,7 +122,7 @@ public class GeometryHelper {
 		 	double k;
 		 	
 		 	
-		 	//a,b,c,d from Ax+By+Cz+d=0
+		 	//A,B,C,D from Ax+By+Cz+d=0
 	        double A = face.Points[0].Y
 	                * (face.Points[1].Z - face.Points[2].Z)
 	                + face.Points[1].Y
@@ -125,40 +157,59 @@ public class GeometryHelper {
 	                * (face.Points[0].Y * face.Points[1].Z - face
 	                        .Points[1].Y
 	                        * face.Points[0].Z);
+	        
+	        
+	        try
+			 {
+				//for parallel it'will be an exception 
+		       k=-(A*Xa+B*Ya+C*Za+D)/(A*ray.RayVector.X+B*ray.RayVector.Y+C*ray.RayVector.Z);
+			 }
+			 catch(Exception e)
+			 {
+				 return null;
+			 }
+			 
+		       if(k<0) //it's for line - not for ray!
+		       {
+		    	   return null;
+		       }
+		       
+		       	  double X0=k*ray.RayVector.X+Xa; 
+			      double Y0=k*ray.RayVector.Y+Ya; 
+			      double Z0=k*ray.RayVector.Z+Za;
+			      
+			      ScenePoint resPoint = new ScenePoint(X0,Y0,Z0);
+			      
+			      if(IsPointInsideFace(resPoint,face))
+			      {
+			    	  return resPoint;
+			      }
+			      else
+			      {
+			    	  return null;
+			      }
+			      
+	        
 		 
-		 try
-		 {
-			//for parallel it'will be an exception 
-	       k=-(A*Xa+B*Ya+C*Za+D)/(A*ray.RayVector.X+B*ray.RayVector.Y+C*ray.RayVector.Z);
-		 }
-		 catch(Exception e)
-		 {
-			 return false;
-		 }
-		 
-	       if(k<0) //it's for line - not for ray!
-	       {
-	    	   return false;
-	       }
-	       
-	       
-	      double X0=k*ray.RayVector.X+Xa; 
-	      double Y0=k*ray.RayVector.Y+Ya; 
-	      double Z0=k*ray.RayVector.Z+Za;
-		 
-	      //check
-	      return IsPointInsideFace(new ScenePoint(X0, Y0, Z0),face);
-		 
-	    }
+	 }
 	 
+	 public static boolean IsIntersectionRayAndFace(Ray ray, Face face) {
+
+		ScenePoint point = GetIntersectionPointBetweenFaceAndRay(ray,face);
+		return (point != null);
+		 
+	 }
 	 
 
+	 public static double GetDistanceBetweenTwoPoints(ScenePoint p1, ScenePoint p2)
+	 {
+		 return Math.sqrt( (p2.X-p1.X)*(p2.X-p1.X) + (p2.Y-p1.Y)*(p2.Y-p1.Y) + (p2.Z-p1.Z)*(p2.Z-p1.Z) );
+	 }
 	 
 	 
 	public static boolean IsPointInsideFace(ScenePoint point, Face face) {
 
-	        double s0 = CalculateAreaOfFace(face.Points[0], face.Points[1], face
-	                .Points[2]);
+	        double s0 = CalculateAreaOfFace(face.Points[0], face.Points[1], face.Points[2]);
 	        double s1 = CalculateAreaOfFace(face.Points[0], face.Points[1], point);
 	        double s2 = CalculateAreaOfFace(face.Points[0], face.Points[2], point);
 	        double s3 = CalculateAreaOfFace(face.Points[2], face.Points[1], point);
