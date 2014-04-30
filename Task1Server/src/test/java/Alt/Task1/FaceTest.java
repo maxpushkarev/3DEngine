@@ -12,8 +12,7 @@ public class FaceTest extends TestCase {
 	
 	public void testCreateEmptyFace()
 	{
-		assertEquals((new Face()).Points.length,3);
-		assertEquals((new Face()).Points[0],null);
+		assertEquals((new Face()).Points.size(),0);
 	}
 	
 	
@@ -31,7 +30,7 @@ public class FaceTest extends TestCase {
 						new ScenePoint(2,2,2,2),
 						new ScenePoint(3,3,3,3)
 						)
-				).Points[0].Id,1);
+				).Points.get(0).Id,1);
 		
 		/**/
 		
@@ -41,7 +40,7 @@ public class FaceTest extends TestCase {
 						new ScenePoint(2,2,2,2),
 						new ScenePoint(3,3,3,3)
 						)
-				).Points[1].X,2.0);
+				).Points.get(1).X,2.0);
 		
 		/**/
 		
@@ -51,7 +50,7 @@ public class FaceTest extends TestCase {
 						new ScenePoint(2,2,2,2),
 						new ScenePoint(3,3,3,3)
 						)
-				).Points[2].Y,3.0);
+				).Points.get(2).Y,3.0);
 		
 		/**/
 		
@@ -61,7 +60,7 @@ public class FaceTest extends TestCase {
 						new ScenePoint(2,2,2,2),
 						new ScenePoint(3,3,3,-4.2)
 						)
-				).Points[2].Z,-4.2);	
+				).Points.get(2).Z,-4.2);	
 	}
 	
 }

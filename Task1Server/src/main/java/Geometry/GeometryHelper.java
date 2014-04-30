@@ -80,15 +80,13 @@ public class GeometryHelper {
 		 
 		 return false;
 	 }
-
-	 
+ 
 	 
 	 public static ScenePoint GetNearestPointToOrigin(ScenePoint point, ArrayList<ScenePoint> points)
 	 {
 		 Collections.sort(points,new PointsComparer(point));
 		 return points.get(0);
 	 }
-	 
 	 
 	 
 	 public static ScenePoint GetIntersectionPointBetweenObjAndRay(Ray ray, SceneObject obj)
@@ -113,7 +111,80 @@ public class GeometryHelper {
 	 }
 	 
 	 
+	 //triangulations of multiple-vertex faces
+	 public static ArrayList<Face> TriangulateFace(Face face)
+	 {
+		 ArrayList<Face> triangles = new ArrayList<Face>();
+		 
+		 if (face.Points.size()==3)
+		 {
+			 triangles.add(face);
+			 return triangles;
+		 }
+		 
+		 int i=1;
+		 int quantityPoints = face.Points.size();
+		 ScenePoint startPoint = face.Points.get(0);
+		 while (i+1<quantityPoints)
+		 {
+			 triangles.add(new Face(	 
+					 startPoint, 
+					 face.Points.get(i),
+					 face.Points.get(i+1)
+					 ));
+			 i++;
+		 }
+		 
+		 
+		 return triangles;
+	 }
+	 
 	 public static ScenePoint GetIntersectionPointBetweenFaceAndRay(Ray ray, Face face)
+	 {
+		 ArrayList<Face> triangles = TriangulateFace(face);
+		 ScenePoint resPoint = null;
+		 for(Face triangle : triangles)
+		 {
+			 resPoint = GetIntersectionPointBetweenTriangleFaceAndRay(ray,triangle);
+			 if(resPoint!=null)
+			 {
+				 return resPoint;
+			 }
+		 }
+		 return null;
+	 }
+	 
+	 
+	 
+	 public static boolean IsCoplanarPolygon(Face plane, Face polygon)
+	 {
+		 
+		PlaneEquation eq = new PlaneEquation(plane);
+		 
+	        //check all polygon's points within plane
+	        for(ScenePoint point : polygon.Points)
+	        {
+	        	if(!IsPointWithinPlane(plane, point))
+	        	{
+	        		return false;
+	        	}
+	        }
+	        
+	        
+	        
+	        return true;
+	        
+	 }
+	 
+	 
+	 public static boolean IsPointWithinPlane(Face plane, ScenePoint point)
+	 {
+		 PlaneEquation eq = new PlaneEquation(plane);
+		 return (Math.abs(( eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D )) < 1f);
+	 }
+	 
+	 
+	 public static ScenePoint GetIntersectionPointBetweenTriangleFaceAndRay(Ray ray, Face face)
 	 {
 		 
 		 	double Xa = ray.getOrigin().X;
@@ -121,42 +192,13 @@ public class GeometryHelper {
 		 	double Za = ray.getOrigin().Z;
 		 	double k;
 		 	
+		 	PlaneEquation eq = new PlaneEquation(face);
 		 	
 		 	//A,B,C,D from Ax+By+Cz+d=0
-	        double A = face.Points[0].Y
-	                * (face.Points[1].Z - face.Points[2].Z)
-	                + face.Points[1].Y
-	                * (face.Points[2].Z - face.Points[0].Z)
-	                + face.Points[2].Y
-	                * (face.Points[0].Z - face.Points[1].Z);
-	        
-	        
-	        double B = face.Points[0].Z
-	                * (face.Points[1].X - face.Points[2].X)
-	                + face.Points[1].Z
-	                * (face.Points[2].X - face.Points[0].X)
-	                + face.Points[2].Z
-	                * (face.Points[0].X - face.Points[1].X);
-	        
-	        double C = face.Points[0].X
-	                * (face.Points[1].Y - face.Points[2].Y)
-	                + face.Points[1].X
-	                * (face.Points[2].Y - face.Points[0].Y)
-	                + face.Points[2].X
-	                * (face.Points[0].Y - face.Points[1].Y);
-	        
-	        double D = -face.Points[0].X
-	                * (face.Points[1].Y * face.Points[2].Z - face
-	                        .Points[2].Y
-	                        * face.Points[1].Z)
-	                - face.Points[1].X
-	                * (face.Points[2].Y * face.Points[0].Z - face
-	                        .Points[0].Y
-	                        * face.Points[2].Z)
-	                - face.Points[2].X
-	                * (face.Points[0].Y * face.Points[1].Z - face
-	                        .Points[1].Y
-	                        * face.Points[0].Z);
+	        double A = eq.A;
+	        double B = eq.B;
+	        double C = eq.C;
+	        double D = eq.D;
 	        
 	        
 	        try
@@ -209,10 +251,10 @@ public class GeometryHelper {
 	 
 	public static boolean IsPointInsideFace(ScenePoint point, Face face) {
 
-	        double s0 = CalculateAreaOfFace(face.Points[0], face.Points[1], face.Points[2]);
-	        double s1 = CalculateAreaOfFace(face.Points[0], face.Points[1], point);
-	        double s2 = CalculateAreaOfFace(face.Points[0], face.Points[2], point);
-	        double s3 = CalculateAreaOfFace(face.Points[2], face.Points[1], point);
+	        double s0 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(1), face.Points.get(2));
+	        double s1 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(1), point);
+	        double s2 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(2), point);
+	        double s3 = CalculateAreaOfFace(face.Points.get(2), face.Points.get(1), point);
 	        return Math.abs(s0 - s1 - s2 - s3) < 1f;
 	    }
 	 

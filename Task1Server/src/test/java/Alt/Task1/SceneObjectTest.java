@@ -27,7 +27,7 @@ public class SceneObjectTest extends TestCase {
 								new ScenePoint(3,3,3,3)
 								)
 						)
-				).get(0).Points[2].Z,3.0);
+				).get(0).Points.get(2).Z,3.0);
 	}
 	
 

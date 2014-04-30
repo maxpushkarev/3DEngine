@@ -162,6 +162,7 @@ public class Brain {
         NodeList faces;
         int facesCount;
         SceneObject sObj;
+        Face face;
         
         for(int i = 0; i<objListLength; i++)
         {
@@ -175,11 +176,9 @@ public class Brain {
         	 for(int k = 0; k < facesCount; k++)
              {
         		faceId = ((Element) faces.item(k)).getTextContent();
-        		sObj.AddFace(
-        				
-        				allFaces.get(Integer.parseInt(faceId))
-        				
-        				);
+        		face = allFaces.get(Integer.parseInt(faceId));
+        		face.ReferenceObject = sObj;
+        		sObj.AddFace(face);
              }
         	 
         	 sObj.Name = name;

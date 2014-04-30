@@ -16,6 +16,23 @@ public class GeometryHelperTest extends TestCase {
         super(testName);
     }
 	
+	
+	public void testIsCoplanarPolygon()
+	{
+		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
+		Face polygon1 = new Face( new ScenePoint(-100,0,100),  new ScenePoint(100,0,100), new ScenePoint(0,0,100));
+		Face polygon2 = new Face( new ScenePoint(-100,0,100),  new ScenePoint(100,0,100), new ScenePoint(0,50,100));
+		
+		/*parallel*/
+		Face polygon3 = new Face( new ScenePoint(-100,4,100),  new ScenePoint(100,4,100), new ScenePoint(0,4,100));
+		
+		assertEquals(GeometryHelper.IsCoplanarPolygon(plane, polygon1), true);
+		assertEquals(GeometryHelper.IsCoplanarPolygon(plane, polygon2), false);
+		assertEquals(GeometryHelper.IsCoplanarPolygon(plane, polygon3), false);
+	
+	}
+	
+	
 	public void testIsPointWithinHouse()
 	{
 		Scene scene = new Scene();
@@ -35,6 +52,45 @@ public class GeometryHelperTest extends TestCase {
 	}
 	
 	
+	public void testTriangulateFace()
+	{
+		Face face3 = new Face(
+				new ScenePoint(0,0,0),
+				new ScenePoint(10,0,0),
+				new ScenePoint(0,10,0)
+				);
+		
+		Face face4 = new Face(
+				new ScenePoint(0,0,0),
+				new ScenePoint(10,0,0),
+				new ScenePoint(0,10,0)
+				);
+		
+		face4.Points.add(new ScenePoint(10,10,0));
+		
+		ArrayList<ScenePoint> list = new ArrayList<ScenePoint>();
+		
+		list.add(new ScenePoint(0,0,0));
+		list.add(new ScenePoint(10,0,0));
+		list.add(new ScenePoint(0,10,0));
+		list.add(new ScenePoint(10,10,0));
+		list.add(new ScenePoint(5,15,0));
+		
+		Face face5 = new Face(0, list);
+		
+		//simple triangle
+		assertEquals(GeometryHelper.TriangulateFace(face3).size(),1);
+		
+		//square
+		assertEquals(GeometryHelper.TriangulateFace(face4).size(),2);
+		assertEquals(GeometryHelper.TriangulateFace(face4).get(1).Points.get(2).EqualPoint(new ScenePoint(10,10,0)),true);
+	
+		//pentagon
+		assertEquals(GeometryHelper.TriangulateFace(face5).size(),3);
+		
+	}
+	
+	
 	public void testGetIntersectionPointBetweenFaceAndRay()
 	{
 		Face face = new Face(
@@ -43,8 +99,23 @@ public class GeometryHelperTest extends TestCase {
 				new ScenePoint(0,2,0)
 				);
 		
+		ArrayList<ScenePoint> list = new ArrayList<ScenePoint>();
+		list.add(new ScenePoint(-10,-10,0));
+		list.add(new ScenePoint(-10,10,0));
+		list.add(new ScenePoint(10,10,0));
+		list.add(new ScenePoint(10,-10,0));
+		Face square = new Face(0,list);
+		
+		
+		Ray z = new Ray(0,new ScenePoint(0,0,-10), new ScenePoint(0,0,-9));
 		Ray ray = new Ray(0,new ScenePoint(0,0,1), new ScenePoint(0,0,0));
+		
+		
 		assertEquals(GeometryHelper.GetIntersectionPointBetweenFaceAndRay(ray, face).EqualPoint(new ScenePoint(0,0,0)),true);
+	
+		/*check non-triangle polygon*/
+		assertEquals(GeometryHelper.GetIntersectionPointBetweenFaceAndRay(z, square).EqualPoint(new ScenePoint(0,0,0)),true);
+	
 	}
 	
 	
@@ -99,12 +170,20 @@ public class GeometryHelperTest extends TestCase {
 		ScenePoint sp5 = new ScenePoint(2.0,0.0,0.0);
 		ScenePoint sp6 = new ScenePoint(0.0,2.0,0.0);
 		
+		
+		ScenePoint sp7 = new ScenePoint(0.0,0.0,0.0);
+		ScenePoint sp8 = new ScenePoint(2.0,0.0,0.0);
+		ScenePoint sp9 = new ScenePoint(0.0,0.0,-1.0);
+		
+		
 		Face face1 = new Face(sp1,sp2,sp3);
 		Face face2 = new Face(sp4,sp5,sp6);
+		Face face3 = new Face(sp7,sp8,sp9);
 		
 		SceneObject obj = new SceneObject();
 		obj.AddFace(face2);
 		obj.AddFace(face1);
+		obj.AddFace(face3);
 	
 		
 		Ray ray1 = new Ray(0, new ScenePoint(1.0,0.5,4.0), new ScenePoint(1.0,0.5,3.0));
