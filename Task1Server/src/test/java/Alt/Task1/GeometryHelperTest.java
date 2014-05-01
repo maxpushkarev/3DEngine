@@ -17,6 +17,235 @@ public class GeometryHelperTest extends TestCase {
     }
 	
 	
+	
+	public void testIsPlaneFaceTangentLine()
+	{
+		Face plane = new Face( 
+				new ScenePoint(-1,0,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,0,1) );
+		
+		Face polygon = new Face(
+				
+				new ScenePoint(0,0,0),
+				new ScenePoint(0.5,0,0),
+				new ScenePoint(10,10,10)
+				
+				);
+		
+		
+		assertEquals(GeometryHelper.IsPlaneFaceTangentLine(plane,polygon),true);
+		polygon.Points.get(0).Y = -1;
+		assertEquals(GeometryHelper.IsPlaneFaceTangentLine(plane,polygon),false);
+	
+	}
+	
+	
+	public void testIsPlaneFaceTangentPoint()
+	{
+		Face plane = new Face( 
+				new ScenePoint(-1,0,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,0,1) );
+		
+		Face polygon = new Face(
+				
+				new ScenePoint(0,0,0),
+				new ScenePoint(10,10,0),
+				new ScenePoint(10,10,10)
+				
+				);
+		
+		assertEquals(GeometryHelper.IsPlaneFaceTangentPoint(plane,polygon),true);
+		polygon.Points.get(0).Y = -155;
+		assertEquals(GeometryHelper.IsPlaneFaceTangentPoint(plane,polygon),false);
+		
+	}
+	
+	
+	public void testIsPointWithinPlane()
+	{
+		Face splitter = new Face(
+				
+				new ScenePoint(-147.22,-56.034, -283.94),
+				new ScenePoint(-166.12,-51.83, -338.93),
+				new ScenePoint(-125.27,-44.67, -335.54)
+				
+				);
+		
+		
+Face splitter1 = new Face(
+				
+				new ScenePoint(893.72, 178.29, 412.84),
+				new ScenePoint(893.72, 121.29, 354.45),
+				new ScenePoint(871.85, 121.29, 412.84)
+				
+				);
+		
+
+		assertEquals(GeometryHelper.IsPointWithinPlane(splitter1, new ScenePoint(909.18, 161.59, 354.45)),true);
+		assertEquals(GeometryHelper.IsPointWithinPlane(splitter, new ScenePoint(-125.27,-44.67, -335.54)),true);
+		assertEquals(GeometryHelper.IsPointWithinPlane(splitter, new ScenePoint(-147.22,-56.034, -283.94)),true);
+		assertEquals(GeometryHelper.IsPointWithinPlane(splitter, new ScenePoint(-166.12,-51.83, -338.93)),true);
+	}
+	
+	public void testIsPolygonFrontOfPlane()
+	{
+		Face plane = new Face( 
+				new ScenePoint(-1,0,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,0,1) );
+		
+		Face frontFace =  new Face( 
+				new ScenePoint(-1,-1,0),  
+				new ScenePoint(1,-1,0), 
+				new ScenePoint(0,-1,1) );
+		
+		Face backFace =  new Face( 
+				new ScenePoint(-1,1,0),  
+				new ScenePoint(1,1,0), 
+				new ScenePoint(0,1,1) );
+		
+		Face splitFace =  new Face( 
+				new ScenePoint(-1,1,0),  
+				new ScenePoint(1,-1,0), 
+				new ScenePoint(0,1,1) );
+		
+		Face tangentPointFace = new Face( 
+				new ScenePoint(-1,-1,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,-1,1) );
+		
+		Face tangentPointFaceBack = new Face( 
+				new ScenePoint(-1,601,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,3453451,1) );
+		
+		Face tangentLineFace = new Face( 
+				new ScenePoint(-1,0,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,-5,1) );
+		
+		Face tangentLineFaceBack = new Face( 
+				new ScenePoint(-1,0,0),  
+				new ScenePoint(1,0,0), 
+				new ScenePoint(0,5,1) );
+		
+		
+		
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, frontFace),true);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, backFace),false);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, splitFace),false);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, tangentPointFace),true);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, tangentPointFaceBack),false);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, tangentLineFace),true);
+		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, tangentLineFaceBack),false);
+	}
+	
+	
+	public void testIsPointFrontOfPlane()
+	{
+		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
+		
+		ScenePoint pointFront = new ScenePoint(0,-1,0);
+		ScenePoint pointBack = new ScenePoint(0,1,0);
+		ScenePoint pointWithin = new ScenePoint(0,0,0);
+		
+		assertEquals(GeometryHelper.IsPointFrontOfPlane(plane, pointFront),true);
+		assertEquals(GeometryHelper.IsPointFrontOfPlane(plane, pointBack),false);
+		assertEquals(GeometryHelper.IsPointFrontOfPlane(plane, pointWithin),false);
+	}
+	
+	
+	public void testIsPolygonSplittedByPlane()
+	{
+		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
+		Face polygonParallel = new Face(new ScenePoint(-1,50,0),  new ScenePoint(1,50,0), new ScenePoint(0,50,1));
+		Face polygonCustomUp = new Face(new ScenePoint(-1,50,0),  new ScenePoint(1,30,0), new ScenePoint(0,50,1));
+		Face polygonCustomCross = new Face(new ScenePoint(-1,50,0),  new ScenePoint(1,-30,0), new ScenePoint(0,50,1));
+		Face polygonCustomCross1 = new Face(new ScenePoint(-41,-50,0),  new ScenePoint(0,50,3), new ScenePoint(3,50,3));
+		Face polygonCustomCross2 = new Face(new ScenePoint(-343,-50,66),  new ScenePoint(40,50,-300), new ScenePoint(50,60,300));
+		Face polygonCustomCross3 = new Face(new ScenePoint(-1,2,0),  new ScenePoint(0,-1,0), new ScenePoint(0,2,1));
+		Face polygonCustomPointTangent = new Face(new ScenePoint(-1,2,0),  new ScenePoint(0,0,0), new ScenePoint(0,2,1));
+		Face polygonCustomSegmentTangent = new Face(new ScenePoint(-50,0,0),  new ScenePoint(60,0,0), new ScenePoint(0,2,0));
+		
+		Face face = new Face(
+				
+				new ScenePoint(999,64,412),
+				new ScenePoint(999,121,354),
+				new ScenePoint(1021,121,412)
+				
+				);
+		
+		Face splitter = new Face(
+				
+				new ScenePoint(-147.22,-56.034, -283.94),
+				new ScenePoint(-166.12,-51.83, -338.93),
+				new ScenePoint(-125.27,-44.67, -335.54)
+				
+				);
+		//----------------------------------------
+		
+		Face splitter1 = new Face(
+				
+				new ScenePoint(893.72, 178.29, 412.84),
+				new ScenePoint(893.72, 121.29, 354.45),
+				new ScenePoint(871.85,121.29, 412.84)
+				
+				);
+		
+		Face faceTest = new Face(
+				
+				new ScenePoint(946.52,121.29,330.26),
+				new ScenePoint(893.72, 121.29, 354.45),
+				new ScenePoint(909.18, 161.59, 354.45)
+				
+				);
+		
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(splitter1, faceTest).IsSplitted,false);
+		
+		/*parallel*/
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonParallel).IsSplitted,false);
+		/*uppper polygon*/
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomUp).IsSplitted,false);
+		
+		/*crossed polygons*/
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomCross).IsSplitted,true);
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomCross1).IsSplitted,true);
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomCross2).IsSplitted,true);
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomCross3).IsSplitted,true);
+		
+		/*one point tangent*/
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomPointTangent).IsSplitted,false);
+		/*one segment tangent*/
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(plane, polygonCustomSegmentTangent).IsSplitted,false);
+	
+		assertEquals(GeometryHelper.InfoPolygonSplittedByPlane(splitter, face).IsSplitted,false);
+		
+		
+		
+	}
+	
+	public void testGetIntersectionBetweenSegmentAndPlane()
+	{
+		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
+		ScenePoint p1 = new ScenePoint(0,0.5,0);
+		ScenePoint p2 = new ScenePoint(0,0.4,0);
+		ScenePoint p3 = new ScenePoint(0,-5,0);
+		ScenePoint p4 = new ScenePoint(0,0,0);
+			
+		
+		//case when segment point is a tangent point
+		assertEquals(GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p1, p4).EqualPoint(new ScenePoint(0,0,0)),true);
+		
+		assertEquals(GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p1, p2),null);
+		assertEquals(GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p2, p1),null);
+		assertEquals(GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p1, p3).EqualPoint(
+				GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p3, p1)),true);
+		
+		assertEquals(GeometryHelper.GetIntersectionBetweenSegmentAndPlane(plane, p1, p3).EqualPoint(new ScenePoint(0,0,0)),true);
+	}
+	
 	public void testIsCoplanarPolygon()
 	{
 		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
@@ -209,7 +438,7 @@ public class GeometryHelperTest extends TestCase {
 	
 	public void testTriangleSquare()
 	{
-		assertEquals(GeometryHelper.CalculateAreaOfFace(new ScenePoint(0, 0, 0),new ScenePoint(2.0, 0, 0),new ScenePoint(0, 2.0, 0) ),2.0);
+		assertEquals(GeometryHelper.CalculateAreaOfTriangleFace(new ScenePoint(0, 0, 0),new ScenePoint(2.0, 0, 0),new ScenePoint(0, 2.0, 0) ),2.0);
 	}
 	
 	public void testIsInFace()
@@ -220,8 +449,8 @@ public class GeometryHelperTest extends TestCase {
 				new ScenePoint(0,2,0)
 				);
 		
-		assertEquals(GeometryHelper.IsPointInsideFace(new ScenePoint(0.5,0.5,0),face),true);
-		assertEquals(GeometryHelper.IsPointInsideFace(new ScenePoint(66.676,0.5,0),face),false);
+		assertEquals(GeometryHelper.IsPointInsideTriangleFace(new ScenePoint(0.5,0.5,0),face),true);
+		assertEquals(GeometryHelper.IsPointInsideTriangleFace(new ScenePoint(66.676,0.5,0),face),false);
 	}
 	
 	
@@ -288,7 +517,7 @@ public class GeometryHelperTest extends TestCase {
 		
 		assertEquals(GeometryHelper.IsIntersectionRayAndHouse(ray, scene),false);
 		assertEquals(GeometryHelper.IsIntersectionRayAndHouse(ray1, scene),true);
-		
+	
 	}
 	
 	

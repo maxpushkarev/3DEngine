@@ -1,6 +1,7 @@
 package Alt.Task1;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -11,6 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import BSP.BSPEngine;
 import Geometry.Face;
 import Geometry.GeometryHelper;
 import Geometry.Ray;
@@ -21,6 +23,7 @@ import Geometry.ScenePoint;
 public class Brain {
 
 	public Scene MainScene;
+	public BSPEngine BrainBSP;
 	
 
 	public SceneObject RayTrace(Ray ray) //entry point to raytracing
@@ -207,6 +210,13 @@ public class Brain {
         this.loadObjects(root, allPoints, allFaces);
         
         allPoints = null;
+        
+        // create BSP-tree
+        System.out.println("BSP-engine is starting.....");
+        this.BrainBSP = new BSPEngine(Collections.list(allFaces.elements()));
+        System.out.println("BSP-WORLD CREATED!!!!");
+        
+        
         allFaces = null;
 	}
 }

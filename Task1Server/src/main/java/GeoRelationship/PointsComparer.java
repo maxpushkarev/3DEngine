@@ -1,6 +1,9 @@
-package Geometry;
+package GeoRelationship;
 
 import java.util.Comparator;
+
+import Geometry.GeometryHelper;
+import Geometry.ScenePoint;
 
 public class PointsComparer implements Comparator<ScenePoint>
 {

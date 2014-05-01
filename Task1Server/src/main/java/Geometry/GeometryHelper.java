@@ -2,6 +2,12 @@ package Geometry;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+
+import GeoRelationship.AccuracyComparer;
+import GeoRelationship.PlaneEquation;
+import GeoRelationship.PlaneFaceRelationship;
+import GeoRelationship.PointsComparer;
 
 public class GeometryHelper {
 
@@ -9,6 +15,27 @@ public class GeometryHelper {
 	        throw new AssertionError();
 	   }
 	
+	 
+	 public static boolean IsPolygonFrontOfPlane(Face plane, Face polygon)
+	 {
+		for(ScenePoint point : polygon.Points)
+		{
+			if(!IsPointFrontOfPlane(plane,point) && !IsPointWithinPlane(plane,point))
+			{
+				return false;
+			}
+		}
+		return true;
+	 }
+	 
+	 
+	 public static boolean IsPointFrontOfPlane(Face plane, ScenePoint point)
+	 {
+		 PlaneEquation eq = new PlaneEquation(plane);
+		 double value =  eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D;
+		 return (Math.abs(value) > 1f) && (value > 0);
+	 }
+	 
 	 
 	 public static boolean IsPointWithinHouse(ScenePoint point, Scene scene)
 	 {
@@ -155,11 +182,8 @@ public class GeometryHelper {
 	 }
 	 
 	 
-	 
 	 public static boolean IsCoplanarPolygon(Face plane, Face polygon)
 	 {
-		 
-		PlaneEquation eq = new PlaneEquation(plane);
 		 
 	        //check all polygon's points within plane
 	        for(ScenePoint point : polygon.Points)
@@ -180,7 +204,162 @@ public class GeometryHelper {
 	 public static boolean IsPointWithinPlane(Face plane, ScenePoint point)
 	 {
 		 PlaneEquation eq = new PlaneEquation(plane);
-		 return (Math.abs(( eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D )) < 1f);
+		 double value = ( eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D );
+		 return (Math.abs(value)/eq.MAX < AccuracyComparer.THRESHOLD);
+	 }
+	  
+	 
+	 private static boolean CalculateSplit(int start, int end, 
+			 Face plane, Face polygon, HashMap<String, ScenePoint> commonPoints)
+	 {
+		 
+		 ScenePoint startPoint ;
+		 ScenePoint endPoint;
+		 ScenePoint intersect;
+		 
+		 startPoint = polygon.Points.get(start);
+		 endPoint = polygon.Points.get(end);
+		 		 
+		 //case when plane and polygon have the common tangent (this is not splitting)
+		 if(IsPointWithinPlane(plane,startPoint) 
+				 && IsPointWithinPlane(plane,endPoint))
+		 {
+			 return false;
+		 }
+		 
+		 
+		 intersect = GetIntersectionBetweenSegmentAndPlane(plane, startPoint, endPoint);
+		 
+		 if(intersect != null)
+		 {
+			 
+			 if(!AccuracyComparer.IsPointRepeated(intersect,commonPoints.values()))
+			 {
+				 commonPoints.put(intersect.toString(), intersect);
+			 }
+		 }
+		 
+		 return true;
+	 }
+	 
+	 
+	 public static boolean IsPlaneFaceTangentLine(Face plane, Face face)
+	 {
+		 
+		 int i = 0;
+		 while(i<face.Points.size()-1)
+		 {
+			 if( IsPointWithinPlane(plane,face.Points.get(i)) &&
+					 IsPointWithinPlane(plane,face.Points.get(i+1))
+					 )
+			 {
+				 return true;
+			 }
+			 
+			 i++;
+		 }
+		 
+		 
+		 if( IsPointWithinPlane(plane,face.Points.get(0)) &&
+				 IsPointWithinPlane(plane,face.Points.get(i))
+				 )
+		 {
+			 return true;
+		 }
+		 
+		 
+		 return false;
+	 }
+	 
+	 public static boolean IsPlaneFaceTangentPoint(Face plane, Face face)
+	 {
+		 ArrayList<ScenePoint> common = new  ArrayList<ScenePoint>();
+		 
+		 for(ScenePoint point : face.Points)
+		 {
+			 if(IsPointWithinPlane(plane,point))
+			 {
+				 common.add(point);
+			 }
+		 }
+		 
+		 return (common.size()==1);
+		 
+	 }
+	 
+	 public static  PlaneFaceRelationship InfoPolygonSplittedByPlane(Face plane, Face polygon)
+	 {
+		 int i = 0 ;
+		 
+		 HashMap<String, ScenePoint> commonPoints = new HashMap<String, ScenePoint>();
+		 
+		 //check all segments of polygon
+		 while(i+1 < polygon.Points.size())
+		 {
+			 if(!CalculateSplit(i,i+1,plane,polygon, commonPoints))
+			 {
+				 return new PlaneFaceRelationship(false);
+			 }
+			 
+			 i++;
+		 }
+		 
+		 if(!CalculateSplit(0,i,plane,polygon, commonPoints))
+		 {
+			 return new PlaneFaceRelationship(false);
+		 }
+		 		 
+		 return new PlaneFaceRelationship(commonPoints);
+	 }
+	 
+	 
+	 public static ScenePoint GetIntersectionBetweenSegmentAndPlane(Face plane, ScenePoint one, ScenePoint two)
+	 {
+		 	double Xa = one.X;
+		 	double Ya = one.Y;
+		 	double Za = one.Z;
+		 	double k;
+		 	
+		 	PlaneEquation eq = new PlaneEquation(plane);
+		 	
+		 	//A,B,C,D from Ax+By+Cz+d=0
+	        double A = eq.A;
+	        double B = eq.B;
+	        double C = eq.C;
+	        double D = eq.D;
+	        
+	        
+	      //case when plane and polygon have the common tangent
+			 if(IsPointWithinPlane(plane,one) 
+					 && IsPointWithinPlane(plane,two))
+			 {
+				 return null;
+			 }
+	        
+	        
+	        try
+			 {
+				//for parallel it'will be an exception 
+		       k=-(A*Xa+B*Ya+C*Za+D)/(A*(two.X - one.X)+B*(two.Y - one.Y)+C*(two.Z - one.Z));
+			 }
+			 catch(Exception e)
+			 {
+				 return null;
+			 }
+	        
+	        if(Math.abs(k)>1 || k<0)
+	        {
+	        	return null;
+	        }
+	        
+	        double X0=k*(two.X - one.X)+Xa; 
+		    double Y0=k*(two.Y - one.Y)+Ya; 
+		    double Z0=k*(two.Z - one.Z)+Za;
+		      
+		    ScenePoint resPoint = new ScenePoint(X0,Y0,Z0);
+		    
+		    return resPoint;
+	        
 	 }
 	 
 	 
@@ -222,8 +401,13 @@ public class GeometryHelper {
 			      
 			      ScenePoint resPoint = new ScenePoint(X0,Y0,Z0);
 			      
-			      if(IsPointInsideFace(resPoint,face))
+			      if(IsPointInsideTriangleFace(resPoint,face))
 			      {
+			    	  if(IsPointWithinPlane(face,resPoint) && IsPointWithinPlane(face,ray.getOrigin()))
+			    	  {
+			    		  return null;
+			    	  }
+			    	  
 			    	  return resPoint;
 			      }
 			      else
@@ -249,17 +433,17 @@ public class GeometryHelper {
 	 }
 	 
 	 
-	public static boolean IsPointInsideFace(ScenePoint point, Face face) {
+	public static boolean IsPointInsideTriangleFace(ScenePoint point, Face face) {
 
-	        double s0 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(1), face.Points.get(2));
-	        double s1 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(1), point);
-	        double s2 = CalculateAreaOfFace(face.Points.get(0), face.Points.get(2), point);
-	        double s3 = CalculateAreaOfFace(face.Points.get(2), face.Points.get(1), point);
+	        double s0 = CalculateAreaOfTriangleFace(face.Points.get(0), face.Points.get(1), face.Points.get(2));
+	        double s1 = CalculateAreaOfTriangleFace(face.Points.get(0), face.Points.get(1), point);
+	        double s2 = CalculateAreaOfTriangleFace(face.Points.get(0), face.Points.get(2), point);
+	        double s3 = CalculateAreaOfTriangleFace(face.Points.get(2), face.Points.get(1), point);
 	        return Math.abs(s0 - s1 - s2 - s3) < 1f;
 	    }
 	 
 	 
-	 public static double CalculateAreaOfFace(ScenePoint a, ScenePoint b, ScenePoint c) {
+	 public static double CalculateAreaOfTriangleFace(ScenePoint a, ScenePoint b, ScenePoint c) {
 		 
 		 	double px = b.X - a.X;
 	        double py = b.Y - a.Y;
