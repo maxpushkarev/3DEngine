@@ -21,7 +21,7 @@ public class SplitFactors {
 	{
 		//weights can be modified;
 		this.w1=1;
-		this.w2 = 0.5;
+		this.w2 = 1;
 		this.w3 = 0.5;
 		
 		this.Coplanars = 0;

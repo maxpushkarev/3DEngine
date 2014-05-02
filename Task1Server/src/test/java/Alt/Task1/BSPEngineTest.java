@@ -36,7 +36,7 @@ public class BSPEngineTest extends TestCase {
 		BSPEngine bsp = new BSPEngine(new ArrayList<Face>());
 		
 		assertEquals(bsp.GetSplitFactors(candidate, faces).Splits,1);
-		assertEquals(bsp.GetSplitFactors(candidate, faces).CalculateScore(),0.5);
+		assertEquals(bsp.GetSplitFactors(candidate, faces).CalculateScore(),1.0);
 		another.Points.get(1).Y = 8.0;
 		assertEquals(bsp.GetSplitFactors(candidate, faces).Back,1);
 		another.Points.get(1).Y = -8.0;

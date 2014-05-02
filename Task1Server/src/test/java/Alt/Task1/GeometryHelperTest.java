@@ -143,6 +143,19 @@ Face splitter1 = new Face(
 	}
 	
 	
+	public void testIsRayFrontOfPlane()
+	{
+		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
+		
+		Ray rayFront = new Ray(0, new ScenePoint(0,2,0), new ScenePoint(0,1,0));
+		Ray rayBack = new Ray(0, new ScenePoint(0,1,0), new ScenePoint(0,2,0));
+		
+		assertEquals(GeometryHelper.IsRayFrontOfPlane(plane, rayFront),true);
+		assertEquals(GeometryHelper.IsRayFrontOfPlane(plane, rayBack),false);
+		
+	}
+	
+	
 	public void testIsPointFrontOfPlane()
 	{
 		Face plane = new Face( new ScenePoint(-1,0,0),  new ScenePoint(1,0,0), new ScenePoint(0,0,1) );
@@ -548,9 +561,17 @@ Face splitter1 = new Face(
 						new ScenePoint(0.5,0.5,-2.0), 
 						new ScenePoint(0.5,0.5,-3.0)
 				);
+				
+		Ray ray3 = new Ray( 0,
+				new ScenePoint(0,0,5), 
+				new ScenePoint(0,1,0)	);	
 		
 		assertEquals(GeometryHelper.IsIntersectionRayAndFace(ray, face),true);
 		assertEquals(GeometryHelper.IsIntersectionRayAndFace(ray1, face),false);
 		assertEquals(GeometryHelper.IsIntersectionRayAndFace(ray2, face),false);
+		
+		/*tangent*/
+		assertEquals(GeometryHelper.IsIntersectionRayAndFace(ray3, face),true);
+	
 	}
 }

@@ -29,11 +29,21 @@ public class GeometryHelper {
 	 }
 	 
 	 
+	 public static boolean IsRayFrontOfPlane(Face plane, Ray ray)
+	 {
+		 PlaneEquation eq = new PlaneEquation(plane);
+		 double valueOrigin =  eq.A*ray.getOrigin().X + eq.B*ray.getOrigin().Y + eq.C*ray.getOrigin().Z + eq.D;
+		 double valueDirection =  eq.A*ray.getDirection().X + eq.B*ray.getDirection().Y + eq.C*ray.getDirection().Z + eq.D;
+		 
+		 return ((valueDirection - valueOrigin) > 0);
+	 }
+	 
+	 
 	 public static boolean IsPointFrontOfPlane(Face plane, ScenePoint point)
 	 {
 		 PlaneEquation eq = new PlaneEquation(plane);
 		 double value =  eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D;
-		 return (Math.abs(value) > 1f) && (value > 0);
+		 return (Math.abs(value)/eq.MAX >= AccuracyComparer.THRESHOLD) && (value > 0);
 	 }
 	 
 	 

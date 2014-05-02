@@ -1,6 +1,7 @@
 package Alt.Task1;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -13,8 +14,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import BSP.BSPEngine;
+import BSP.BSPNode;
 import Geometry.Face;
 import Geometry.GeometryHelper;
+import Geometry.GeometryPlacing;
 import Geometry.Ray;
 import Geometry.Scene;
 import Geometry.SceneObject;
@@ -28,12 +31,84 @@ public class Brain {
 
 	public SceneObject RayTrace(Ray ray) //entry point to raytracing
 	{	
-		if(GeometryHelper.IsIntersectionRayAndHouse(ray, this.MainScene))
+		/*start root*/
+		BSPNode root = this.BrainBSP.BSPRoot;
+		ArrayList<ScenePoint> hits = new ArrayList<ScenePoint>();
+		
+		if(GeometryHelper.IsRayFrontOfPlane(root.NodeFace, ray))
+		{
+			//go front	
+			this.CollectHits(root, ray, GeometryPlacing.FRONT, hits);
+		}
+		else
+		{
+			//go back
+			this.CollectHits(root, ray, GeometryPlacing.BACK, hits);
+		}
+		
+		if(hits.size()==0)
 		{
 			return null;
 		}
+		else
+		{
+			ScenePoint hitPoint = GeometryHelper.GetNearestPointToOrigin(ray.getOrigin(), hits);
+			return hitPoint.RefFace.ReferenceObject;
+		}
 		
-		return null;
+	}
+	
+	
+	private void CollectComplanarHits(BSPNode root, 
+			Ray ray, 
+			ArrayList<ScenePoint> hits)
+	{
+		
+		for(Face complanar : root.CoplanarFaces)
+		{
+			ScenePoint hit = GeometryHelper.GetIntersectionPointBetweenFaceAndRay(ray, complanar);
+			if(hit!= null)
+			{
+				hit.RefFace = complanar;
+				hits.add(hit);
+			}
+		}
+		
+	}
+	
+	private void CollectHits(BSPNode root, 
+			Ray ray, 
+			GeometryPlacing direction,
+			ArrayList<ScenePoint> hits)
+	{
+		if(root == null)
+		{
+			return;
+		}
+	
+		
+		//check root
+		ScenePoint hit = GeometryHelper.GetIntersectionPointBetweenFaceAndRay(ray, root.NodeFace);
+		if(hit!= null)
+		{
+			hit.RefFace = root.NodeFace;
+			hits.add(hit);
+		}
+		
+		/*don't forget about complanar faces*/
+		this.CollectComplanarHits(root, ray, hits);
+		
+		if(direction == GeometryPlacing.FRONT)
+		{
+			this.CollectHits(root.FrontNode, ray, direction, hits);
+		}
+		else
+		{
+			this.CollectHits(root.BackNode, ray, direction, hits);
+		}
+		
+		
+		
 	}
 	
 	
@@ -193,7 +268,7 @@ public class Brain {
 	}
 	
 	
-	public void Initialize(String fileName) throws Exception
+	public int Initialize(String fileName) throws Exception
 	{
 		
 		Dictionary<Integer, ScenePoint> allPoints = new Hashtable<Integer, ScenePoint>();
@@ -201,6 +276,12 @@ public class Brain {
 		
         File xmlFile = new File(fileName);
      
+        if (!xmlFile.exists())
+        {
+        	System.out.println("File dosn't exists!");
+        	return -1;
+        }
+        
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(xmlFile);
@@ -212,11 +293,11 @@ public class Brain {
         allPoints = null;
         
         // create BSP-tree
-        System.out.println("BSP-engine is starting.....");
+        System.out.println("Building of BSP-tree is starting.....");
         this.BrainBSP = new BSPEngine(Collections.list(allFaces.elements()));
-        System.out.println("BSP-WORLD CREATED!!!!");
-        
+        System.out.println("BSP-tree was build successfully!!!!");
         
         allFaces = null;
+        return 0;
 	}
 }

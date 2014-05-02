@@ -83,12 +83,6 @@ public class CommunicationThread extends Thread {
 	    			AnalyzeThread analyzeThread = new AnalyzeThread(this.ClientRay, this.MainBrain, out);
 	    			analyzeThread.start();
 	    			
-	    			synchronized(out)
-    				{
-	    				out.writeUTF("WAIT FOR ANALYZING RAY: "+ this.ClientRay.getId());
-	    				out.flush();
-    				}
-	    			
 	    		}
 	    		
 	    		

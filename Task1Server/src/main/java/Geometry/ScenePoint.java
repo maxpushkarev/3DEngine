@@ -14,6 +14,8 @@ public final class ScenePoint  {
 
 	public double Z;
 	
+	public Face RefFace;
+	
 	@Override
 	public String toString()
 	{
@@ -27,6 +29,7 @@ public final class ScenePoint  {
 		 this.Z = (double)Math.round(z * 100) / 100;
 		
 		 this.Id=id;
+		 this.RefFace = null;
 	}
 	
 	public ScenePoint(double x, double y, double z)
@@ -37,6 +40,7 @@ public final class ScenePoint  {
 		 this.Z = (double)Math.round(z * 100) / 100;
 		
 		this.Id=0;
+		this.RefFace = null;
 	}
 	
 	public ScenePoint(String strCoords)
@@ -55,6 +59,7 @@ public final class ScenePoint  {
 		
 		
 		this.Id = 0;
+		this.RefFace = null;
 	}
 	
 	public boolean EqualPoint(ScenePoint anotherPoint)

@@ -193,11 +193,6 @@ public class BSPEngine {
 		faceTable.get(GeometryPlacing.FRONT).add(faceFront);
 		faceTable.get(GeometryPlacing.BACK).add(faceBack);
 		
-		if((faceFront.Points.size()==2) || (faceBack.Points.size()==2))
-		{
-			int a = 0;
-		}
-		
 	}
 	
 	
