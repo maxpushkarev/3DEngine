@@ -98,13 +98,15 @@ public class Brain {
 		/*don't forget about complanar faces*/
 		this.CollectComplanarHits(root, ray, hits);
 		
-		if(direction == GeometryPlacing.FRONT)
+		if(GeometryHelper.IsRayFrontOfPlane(root.NodeFace, ray))
 		{
-			this.CollectHits(root.FrontNode, ray, direction, hits);
+			//go front	
+			this.CollectHits(root.FrontNode, ray, GeometryPlacing.FRONT, hits);
 		}
 		else
 		{
-			this.CollectHits(root.BackNode, ray, direction, hits);
+			//go back
+			this.CollectHits(root.BackNode, ray, GeometryPlacing.BACK, hits);
 		}
 		
 		
