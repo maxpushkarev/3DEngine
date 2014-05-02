@@ -17,7 +17,6 @@ import BSP.BSPEngine;
 import BSP.BSPNode;
 import Geometry.Face;
 import Geometry.GeometryHelper;
-import Geometry.GeometryPlacing;
 import Geometry.Ray;
 import Geometry.Scene;
 import Geometry.SceneObject;
@@ -35,16 +34,7 @@ public class Brain {
 		BSPNode root = this.BrainBSP.BSPRoot;
 		ArrayList<ScenePoint> hits = new ArrayList<ScenePoint>();
 		
-		if(GeometryHelper.IsRayFrontOfPlane(root.NodeFace, ray))
-		{
-			//go front	
-			this.CollectHits(root, ray, GeometryPlacing.FRONT, hits);
-		}
-		else
-		{
-			//go back
-			this.CollectHits(root, ray, GeometryPlacing.BACK, hits);
-		}
+		this.CollectHits(root, ray, hits);
 		
 		if(hits.size()==0)
 		{
@@ -78,7 +68,6 @@ public class Brain {
 	
 	private void CollectHits(BSPNode root, 
 			Ray ray, 
-			GeometryPlacing direction,
 			ArrayList<ScenePoint> hits)
 	{
 		if(root == null)
@@ -101,12 +90,12 @@ public class Brain {
 		if(GeometryHelper.IsRayFrontOfPlane(root.NodeFace, ray))
 		{
 			//go front	
-			this.CollectHits(root.FrontNode, ray, GeometryPlacing.FRONT, hits);
+			this.CollectHits(root.FrontNode, ray, hits);
 		}
 		else
 		{
 			//go back
-			this.CollectHits(root.BackNode, ray, GeometryPlacing.BACK, hits);
+			this.CollectHits(root.BackNode, ray, hits);
 		}
 		
 		
