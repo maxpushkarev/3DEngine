@@ -27,6 +27,26 @@ public class GeometryHelper {
 		}
 		return true;
 	 }
+
+	 
+	 public static boolean IsPolygonBackOfPlane(Face plane, Face polygon)
+	 {
+		for(ScenePoint point : polygon.Points)
+		{
+			if(IsPointWithinPlane(plane,point))
+			{
+				continue;
+			}
+			
+			
+			if(IsPointFrontOfPlane(plane,point))
+			{
+				return false;
+			}
+			
+		}
+		return true;
+	 }
 	 
 	 
 	 public static boolean IsRayFrontOfPlane(Face plane, Ray ray)
@@ -43,7 +63,7 @@ public class GeometryHelper {
 	 {
 		 PlaneEquation eq = new PlaneEquation(plane);
 		 double value =  eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D;
-		 return (Math.abs(value)/eq.MAX >= AccuracyComparer.THRESHOLD) && (value > 0);
+		 return (Math.abs(value)/eq.MAX>=AccuracyComparer.THRESHOLD)&&(value > 0);
 	 }
 	 
 	 

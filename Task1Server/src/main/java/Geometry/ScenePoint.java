@@ -64,6 +64,7 @@ public final class ScenePoint  {
 	
 	public boolean EqualPoint(ScenePoint anotherPoint)
 	{
+	
 		return (Math.abs(this.X - anotherPoint.X) < AccuracyComparer.THRESHOLD) && 
 				(Math.abs(this.Y - anotherPoint.Y) < AccuracyComparer.THRESHOLD) && 
 				(Math.abs(this.Z - anotherPoint.Z) < AccuracyComparer.THRESHOLD);

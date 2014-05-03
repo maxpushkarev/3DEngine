@@ -21,7 +21,7 @@ public class PlaneEquation {
                 + plane.Points.get(2).Y
                 * (plane.Points.get(0).Z - plane.Points.get(1).Z);
         
-        max=Math.abs(this.A);
+        max=Math.abs(this.A) > 1 ? Math.abs(this.A) : 1;
         
         this.B = plane.Points.get(0).Z
                 * (plane.Points.get(1).X - plane.Points.get(2).X)

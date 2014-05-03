@@ -76,11 +76,6 @@ public class BSPEngine {
 				continue;
 			}
 			
-			rel = GeometryHelper.InfoPolygonSplittedByPlane(splitter, face);
-			if(rel.IsSplitted){
-				this.splitFace(rel.CommonPoints, faceTable, splitter, face);
-				continue;
-			}
 			
 			
 			if(GeometryHelper.IsPolygonFrontOfPlane(splitter, face))
@@ -88,11 +83,21 @@ public class BSPEngine {
 				faceTable.get(GeometryPlacing.FRONT).add(face);
 				continue;
 			}
-			else
+			
+			if(GeometryHelper.IsPolygonBackOfPlane(splitter, face))
 			{
 				faceTable.get(GeometryPlacing.BACK).add(face);
 				continue;
 			}
+			
+			
+			
+			rel = GeometryHelper.InfoPolygonSplittedByPlane(splitter, face);
+			if(rel.IsSplitted){
+				this.splitFace(rel.CommonPoints, faceTable, splitter, face);
+				continue;
+			}
+			
 			
 		}
 	}
@@ -231,22 +236,26 @@ public class BSPEngine {
 			}
 			
 			
-			if(GeometryHelper.InfoPolygonSplittedByPlane(candidate, face).IsSplitted){
-				res.Splits++;
-				continue;
-			}
-			
 			
 			if(GeometryHelper.IsPolygonFrontOfPlane(candidate, face))
 			{
 				res.Front ++;
 				continue;
 			}
-			else
+			
+			if(GeometryHelper.IsPolygonBackOfPlane(candidate, face))
 			{
 				res.Back ++;
 				continue;
 			}
+			
+			
+			if(GeometryHelper.InfoPolygonSplittedByPlane(candidate, face).IsSplitted){
+				res.Splits++;
+				continue;
+			}
+			
+			
 			
 		}
 		

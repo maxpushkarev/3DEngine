@@ -133,6 +133,8 @@ Face splitter1 = new Face(
 		
 		
 		
+		assertEquals(GeometryHelper.IsPolygonBackOfPlane(plane, backFace),true);
+		
 		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, frontFace),true);
 		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, backFace),false);
 		assertEquals(GeometryHelper.IsPolygonFrontOfPlane(plane, splitFace),false);

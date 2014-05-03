@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.091" errors="0" skipped="0" tests="20" name="Alt.Task1.GeometryHelperTest">
+<testsuite failures="0" time="0.043" errors="0" skipped="0" tests="20" name="Alt.Task1.GeometryHelperTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jre7\bin"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 8"/>
-    <property name="classworlds.conf" value="C:\Users\Platon\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf7514286468167767986.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\Platon\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf7707787297034691150.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1251"/>
     <property name="java.library.path" value="C:\Program Files\Java\jre7\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre7/bin/client;C:/Program Files/Java/jre7/bin;C:/Program Files/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\ManagementStudio\;C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\;C:\Program Files\EmEditor;C:\Program Files\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Gle4\bin;C:\Users\Platon\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -61,24 +61,24 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.006" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionPointBetweenFaceAndRay"/>
-  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionBetweenSegmentAndPlane"/>
-  <testcase time="0.018" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionPointBetweenObjAndRay"/>
   <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsPlaneFaceTangentLine"/>
-  <testcase time="0.017" classname="Alt.Task1.GeometryHelperTest" name="testIsRayFrontOfPlane"/>
-  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testTriangulateFace"/>
+  <testcase time="0.006" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionPointBetweenFaceAndRay"/>
+  <testcase time="0.003" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionPointBetweenObjAndRay"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testGetIntersectionBetweenSegmentAndPlane"/>
   <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsCoplanarPolygon"/>
-  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testTriangleSquare"/>
-  <testcase time="0.003" classname="Alt.Task1.GeometryHelperTest" name="testIntersectionObj"/>
   <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testNearestPoint"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testTriangleSquare"/>
+  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testTriangulateFace"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsRayFrontOfPlane"/>
+  <testcase time="0.002" classname="Alt.Task1.GeometryHelperTest" name="testIntersectionObj"/>
   <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testGetDistanceBetweenTwoPoints"/>
   <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsInFace"/>
-  <testcase time="0.003" classname="Alt.Task1.GeometryHelperTest" name="testIsPointWithinHouse"/>
-  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsPlaneFaceTangentPoint"/>
-  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsPolygonFrontOfPlane"/>
-  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsPointFrontOfPlane"/>
   <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsPointWithinPlane"/>
-  <testcase time="0.003" classname="Alt.Task1.GeometryHelperTest" name="testIsIntersectionRayAndHouse"/>
-  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsIntersectionRayAndFace"/>
-  <testcase time="0.008" classname="Alt.Task1.GeometryHelperTest" name="testIsPolygonSplittedByPlane"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsPointFrontOfPlane"/>
+  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsIntersectionRayAndFace"/>
+  <testcase time="0.004" classname="Alt.Task1.GeometryHelperTest" name="testIsPolygonSplittedByPlane"/>
+  <testcase time="0.001" classname="Alt.Task1.GeometryHelperTest" name="testIsPlaneFaceTangentPoint"/>
+  <testcase time="0.007" classname="Alt.Task1.GeometryHelperTest" name="testIsIntersectionRayAndHouse"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsPointWithinHouse"/>
+  <testcase time="0" classname="Alt.Task1.GeometryHelperTest" name="testIsPolygonFrontOfPlane"/>
 </testsuite>

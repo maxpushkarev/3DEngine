@@ -32,7 +32,7 @@ public class App
         	return;
         }
         /* create communicator between server and client */
-        
+       
         Communicator communicator = new Communicator(port, brain);
         communicator.Initialize(); 
         
