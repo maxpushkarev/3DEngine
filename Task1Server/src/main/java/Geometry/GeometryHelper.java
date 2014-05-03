@@ -63,7 +63,7 @@ public class GeometryHelper {
 	 {
 		 PlaneEquation eq = new PlaneEquation(plane);
 		 double value =  eq.A*point.X + eq.B*point.Y + eq.C*point.Z + eq.D;
-		 return (Math.abs(value)/eq.MAX>=AccuracyComparer.THRESHOLD)&&(value > 0);
+		 return (value > 0);
 	 }
 	 
 	 

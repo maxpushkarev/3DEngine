@@ -11,7 +11,7 @@ public class AccuracyComparer {
 	 }
 	
 	//problem with splitting polygons because of accuracy
-	public static double THRESHOLD =0.01f;
+	public static double THRESHOLD = 0.1;
 	
 	public static boolean IsPointRepeated(ScenePoint point, Collection<ScenePoint> points)
 	{

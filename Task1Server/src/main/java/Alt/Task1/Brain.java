@@ -87,6 +87,11 @@ public class Brain {
 		/*don't forget about complanar faces*/
 		this.CollectComplanarHits(root, ray, hits);
 		
+		//TODO: fight with calculating errors
+		this.CollectHits(root.FrontNode, ray, hits);
+		this.CollectHits(root.BackNode, ray, hits);
+		
+		/*
 		if(GeometryHelper.IsPointWithinPlane(root.NodeFace, ray.getOrigin())
 				&&
 				GeometryHelper.IsPointWithinPlane(root.NodeFace, ray.getDirection())
@@ -106,7 +111,7 @@ public class Brain {
 			this.CollectHits(root.BackNode, ray, hits);
 		}
 		
-		
+		*/
 		
 	}
 	

@@ -68,7 +68,7 @@ public class PlaneEquation {
         	max = Math.abs(this.D);
         }
         
-	 this.MAX = max;
+	 this.MAX = max; //i'm trying to minimize calculating errors
 	 
 	}
 }

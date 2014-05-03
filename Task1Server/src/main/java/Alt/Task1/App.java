@@ -34,7 +34,7 @@ public class App
         /* create communicator between server and client */
        
         Communicator communicator = new Communicator(port, brain);
-        communicator.Initialize(); 
+        communicator.Initialize();
         
       
     }
