@@ -1,6 +1,7 @@
 package Alt.Task1;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
@@ -272,23 +273,16 @@ public class Brain {
 	}
 	
 	
-	public int Initialize(String fileName) throws Exception
+	public int Initialize() throws Exception
 	{
 		
 		Dictionary<Integer, ScenePoint> allPoints = new Hashtable<Integer, ScenePoint>();
 		Dictionary<Integer, Face> allFaces = new Hashtable<Integer, Face>();
 		
-        File xmlFile = new File(fileName);
-     
-        if (!xmlFile.exists())
-        {
-        	System.out.println("File dosn't exists!");
-        	return -1;
-        }
         
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(xmlFile);
+        Document document = builder.parse(new URL("http://127.0.0.1:7654/scene").openStream());
 		Element root = document.getDocumentElement();
         this.LoadPoints(root, allPoints);
         this.loadFaces(root, allPoints, allFaces);

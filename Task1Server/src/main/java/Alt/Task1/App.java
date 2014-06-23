@@ -8,18 +8,13 @@ public class App
     public static void main( String[] args ) throws Exception
     {
     	
-    	if(args.length == 0)
-    	{
-    		System.err.println("No scene avaible..GoodBye ;-(");
-    		return;
-    	}
         int port = ConnectionPort.LoadPort();
         
         System.out.println("Engine-Server is starting.... Please, wait!"); 
         
         /* Create brain and initialize it */
         Brain brain = new Brain();
-        int init = brain.Initialize(args[0]);
+        int init = brain.Initialize();
         //int init = brain.Initialize("C:\\Users\\Platon\\workspace\\Task1Server\\target\\example2.xml");
 
         if(init == 0)
